@@ -19,6 +19,7 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -59,7 +60,7 @@ public class DefaultSecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable())
+        http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/api/**").permitAll()
                             .requestMatchers("/auth/**").permitAll()
@@ -75,8 +76,7 @@ public class DefaultSecurityConfiguration {
             // 未认证
             oauth2.authenticationEntryPoint((request, response, authException) -> {
                 // oauth2 认证失败导致的，还有一种可能是非oauth2认证失败导致的，比如没有传递token，但是访问受权限保护的方法
-                if (authException instanceof OAuth2AuthenticationException) {
-                    OAuth2AuthenticationException oAuth2AuthenticationException = (OAuth2AuthenticationException) authException;
+                if (authException instanceof OAuth2AuthenticationException oAuth2AuthenticationException) {
                     OAuth2Error error = oAuth2AuthenticationException.getError();
                     logger.warn("Authentication fail, Exception type: [{}],异常:[{}]",
                             authException.getClass().getName(), error);

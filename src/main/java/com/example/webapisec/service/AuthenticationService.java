@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AuthenticationService {
-    private AuthenticationManager authenticationManager;
-    private TokenService tokenService;
+    private final AuthenticationManager authenticationManager;
+    private final TokenService tokenService;
 
     @Autowired
     public AuthenticationService(AuthenticationManager authenticationManager, TokenService tokenService) {
@@ -24,8 +24,7 @@ public class AuthenticationService {
                     new UsernamePasswordAuthenticationToken(username, password)
             );
 
-            String jwtToken = tokenService.generateJwt(authentication);
-            return jwtToken;
+            return tokenService.generateJwt(authentication);
         } catch (AuthenticationException e) {
             return null;
         }

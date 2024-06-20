@@ -6,8 +6,13 @@ import java.security.NoSuchAlgorithmException;
 
 public class KeyGeneratorUtil {
 
-    public static KeyPair generateRsaKey() throws NoSuchAlgorithmException {
-        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+    public static KeyPair generateRsaKey() {
+        KeyPairGenerator keyPairGenerator = null;
+        try {
+            keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
         keyPairGenerator.initialize(2048);
         return keyPairGenerator.generateKeyPair();
     }

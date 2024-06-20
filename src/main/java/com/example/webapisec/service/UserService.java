@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -18,10 +18,10 @@ public class UserService implements UserDetailsService {
 
         if (username.equals("user")) {
             return new User("user", "$2a$10$dWHIR3ggSj5mpxRG8P/r1uYVkt2mN8i9qEot/sO8IHbxf99eqHf4m",
-                    Arrays.asList(new SimpleGrantedAuthority("USER")));
+                    List.of(new SimpleGrantedAuthority("USER")));
         } else if (username.equals("admin")) {
             return new User("admin", "$2a$10$dWHIR3ggSj5mpxRG8P/r1uYVkt2mN8i9qEot/sO8IHbxf99eqHf4m",
-                    Arrays.asList(new SimpleGrantedAuthority("ADMIN")));
+                    List.of(new SimpleGrantedAuthority("ADMIN")));
         } else {
             throw new UsernameNotFoundException(username + " does not found!");
         }

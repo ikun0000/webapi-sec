@@ -11,7 +11,7 @@ import java.util.Map;
 @RequestMapping("/auth")
 @CrossOrigin("*")
 public class AuthenticationController {
-    private AuthenticationService authenticationService;
+    private final AuthenticationService authenticationService;
 
     @Autowired
     public AuthenticationController(AuthenticationService authenticationService) {
